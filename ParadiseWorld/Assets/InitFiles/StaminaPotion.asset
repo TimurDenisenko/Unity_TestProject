@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StaminaPotion
   m_EditorClassIdentifier: 
   Name: Stamina potion
-  IsStackable: 0
+  IsStackable: 1
   Icon: {fileID: 21300000, guid: 4dbda8a8a929c3c41bfb9cfffeff1dc3, type: 3}
   ItemObject: {fileID: 0}
   potionType: 1

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: HealthPotion
   m_EditorClassIdentifier: 
   Name: Health potion
-  IsStackable: 0
+  IsStackable: 1
   Icon: {fileID: 21300000, guid: d67feb8ad28110b42bd85ca80f6a784d, type: 3}
   ItemObject: {fileID: 0}
+  potionType: 0
   recovery: 5

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,8 +9,8 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     [SerializeField] public Item item;
     internal int id;
     Image slotIcon;
+    TMP_Text slotCount;
     Image eventTarget;
-    //TMP_Text slotName;
     bool isEquip = false;
     Button btn;
     Transform childrenSlot;
@@ -50,7 +51,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         item = null;    
         slotIcon.sprite = null;
-        //slotName.text = null;
         btn.onClick.RemoveAllListeners();
     }
 
@@ -77,23 +77,28 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         bodySlot = transform.GetChild(0);
         childrenSlot = bodySlot.GetChild(0);
         slotIcon = childrenSlot.GetChild(0).GetComponent<Image>();
-        //slotName = childrenSlot.GetChild(1).GetComponentInChildren<TMP_Text>();
+        slotCount = childrenSlot.GetChild(1).GetComponent<TMP_Text>();
         if (item != null)
             UpdateSlot();
     }
     internal void UpdateSlot(Item newItem)
     {
         item = newItem;
-        SetIcon();
-        SetText();
+        UpdateSlot();
     }
+
+    private void SetStartCount() 
+    {
+        if (item.IsStackable)
+            slotCount.text = "1";
+    } 
+
     internal void UpdateSlot()
     {
         SetIcon();
-        SetText();
+        SetStartCount();
     }
     private void SetIcon() => slotIcon.sprite = item.Icon;
-    private void SetText() => Debug.Log("");//slotName.text = item.Name;
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -125,7 +130,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (item == null)
+        if (item == null )
             return;
         StaticSoldier.Inventory.tooltip.ShowTooltip(item.Name);
     }
