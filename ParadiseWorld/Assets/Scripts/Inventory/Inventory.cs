@@ -22,15 +22,19 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0;i < slots.Count;i++)
         {
-            if (slots[i].item == null)
+            if (item.IsStackable && slots.Where(x => x.item == item).Count() > 0)
+            {
+                Slot slot = slots.Where(x => x.item == item).First();
+                slot.count++;
+                Debug.Log(slot.count);
+                slot.UpdateSlot(item);
+                break;
+            }
+            else if (slots[i].item == null)
             {
                 slots[i].UpdateSlot(item);
                 break;
             }
-            //else if (slots.Where(x => x.item == item).First().item.IsStackable )
-            //{
-
-            //}
         }
     }
     internal void AddItem(int i)

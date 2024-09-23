@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] public Item item;
+    [SerializeField] public int count = 1;
     internal int id;
     Image slotIcon;
     TMP_Text slotCount;
@@ -87,16 +88,16 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         UpdateSlot();
     }
 
-    private void SetStartCount() 
+    private void SetCount() 
     {
         if (item.IsStackable)
-            slotCount.text = "1";
+            slotCount.text = count.ToString();
     } 
 
-    internal void UpdateSlot()
+    internal void UpdateSlot() 
     {
         SetIcon();
-        SetStartCount();
+        SetCount();
     }
     private void SetIcon() => slotIcon.sprite = item.Icon;
 
