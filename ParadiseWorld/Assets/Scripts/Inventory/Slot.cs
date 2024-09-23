@@ -3,13 +3,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] public Item item;
     internal int id;
     Image slotIcon;
     Image eventTarget;
-    TMP_Text slotName;
+    //TMP_Text slotName;
     bool isEquip = false;
     Button btn;
     Transform childrenSlot;
@@ -50,7 +50,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         item = null;    
         slotIcon.sprite = null;
-        slotName.text = null;
+        //slotName.text = null;
         btn.onClick.RemoveAllListeners();
     }
 
@@ -77,7 +77,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         bodySlot = transform.GetChild(0);
         childrenSlot = bodySlot.GetChild(0);
         slotIcon = childrenSlot.GetChild(0).GetComponent<Image>();
-        slotName = childrenSlot.GetChild(1).GetComponentInChildren<TMP_Text>();
+        //slotName = childrenSlot.GetChild(1).GetComponentInChildren<TMP_Text>();
         if (item != null)
             UpdateSlot();
     }
@@ -93,7 +93,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         SetText();
     }
     private void SetIcon() => slotIcon.sprite = item.Icon;
-    private void SetText() => slotName.text = item.Name;
+    private void SetText() => Debug.Log("");//slotName.text = item.Name;
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -121,5 +121,17 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
         bodySlot.SetParent(parent);
         eventTarget.raycastTarget = true;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (item == null)
+            return;
+        StaticSoldier.Inventory.tooltip.ShowTooltip(item.Name);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        StaticSoldier.Inventory.tooltip.HideTooltip();
     }
 }

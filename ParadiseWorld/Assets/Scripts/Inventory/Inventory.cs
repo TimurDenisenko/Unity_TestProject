@@ -5,6 +5,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] Transform Content;
+    [SerializeField] public Tooltip tooltip;
     [SerializeField] int SlotsCount;
     [SerializeField] Slot SlotPrefab;
     List<Slot> slots = new List<Slot>();
