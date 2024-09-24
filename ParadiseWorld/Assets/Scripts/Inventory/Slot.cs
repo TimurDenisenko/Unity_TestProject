@@ -45,14 +45,22 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                 StaticSoldier.AttackComponent.RestoreMana(potion.recovery);
                 break;
         }
-        DeleteSlot();
+        if (count > 1)
+        {
+            --count;
+            UpdateSlot();
+        }
+        else
+        {
+            DeleteSlot();
+        }
     }
 
     private void DeleteSlot()
     {
         item = null;    
         slotIcon.sprite = null;
-        btn.onClick.RemoveAllListeners();
+        slotCount.text = null;
     }
 
     private void SwordAction()

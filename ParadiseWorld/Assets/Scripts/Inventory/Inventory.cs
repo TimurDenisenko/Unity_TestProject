@@ -26,7 +26,6 @@ public class Inventory : MonoBehaviour
             {
                 Slot slot = slots.Where(x => x.item == item).First();
                 slot.count++;
-                Debug.Log(slot.count);
                 slot.UpdateSlot(item);
                 break;
             }
@@ -37,7 +36,7 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-    internal void AddItem(int i)
+    internal void AddItem(int i) 
     {
         SlotPrefab.item = null;
         SlotPrefab.id = i;
