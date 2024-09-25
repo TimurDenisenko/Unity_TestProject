@@ -7,6 +7,6 @@ public abstract class Item : ScriptableObject
 {
     public string Name;
     public bool IsStackable;
+    public int Capacity = 1;
     public Sprite Icon;
-    public GameObject ItemObject;
 }

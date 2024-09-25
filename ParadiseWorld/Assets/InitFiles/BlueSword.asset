@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 1At
   IsStackable: 0
+  Capacity: 1
   Icon: {fileID: 21300000, guid: ffb96e10b79a8f148961b6529271795b, type: 3}
   ItemObject: {fileID: 1907275252520156, guid: f800fcc198377b4408a28f2715b1a60d, type: 3}
   attack: 1
   staminaConsumption: 5
+  SwordObject: {fileID: 1907275252520156, guid: f800fcc198377b4408a28f2715b1a60d, type: 3}

@@ -212,7 +212,7 @@ public class SoldierControl : MonoBehaviour
     {
         if (currentSword != null)
             Destroy(currentSword.gameObject);
-        currentSword = Instantiate(swordSlot.item.ItemObject, passiveSword);
+        currentSword = Instantiate(((Sword)swordSlot.item).SwordObject, passiveSword);
         currentSwordSlot = swordSlot;
         ChangeSwordTransform(passiveSword);
         AnimatorExtension.state = "";
