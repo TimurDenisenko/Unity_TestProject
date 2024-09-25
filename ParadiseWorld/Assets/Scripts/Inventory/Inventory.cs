@@ -22,14 +22,18 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0;i < slots.Count;i++)
         {
-            if (item.IsStackable && slots.Where(x => x.item == item).Count() > 0)
+            if (item.IsStackable)
             {
-                Slot slot = slots.Where(x => x.item == item).First();
-                slot.count++;
-                slot.UpdateSlot(item);
-                break;
+                IEnumerable<Slot> items = slots.Where(x => x.item == item && item.Capacity > x.count);
+                if (items.Count() > 0)
+                {
+                    Slot slot = items.First();
+                    slot.count++;
+                    slot.UpdateSlot(item);
+                    break;
+                }
             }
-            else if (slots[i].item == null)
+            if (slots[i].item == null)
             {
                 slots[i].UpdateSlot(item);
                 break;
