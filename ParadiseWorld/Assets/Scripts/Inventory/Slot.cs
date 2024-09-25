@@ -119,7 +119,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if (item == null) return;
         parent = bodySlot.parent;
-        bodySlot.SetParent(bodySlot.parent.parent);
+        bodySlot.SetParent(bodySlot.parent.parent.parent);
         eventTarget.raycastTarget = false;
     }
 
