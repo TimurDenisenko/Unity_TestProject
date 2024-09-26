@@ -132,6 +132,12 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             int index = transform.GetSiblingIndex();
             transform.SetSiblingIndex(drop.transform.GetSiblingIndex());
             drop.transform.SetSiblingIndex(index);
+            Slot tempslot = StaticSoldier.Inventory.slots[id];
+            StaticSoldier.Inventory.slots[id] = StaticSoldier.Inventory.slots[drop.id];
+            StaticSoldier.Inventory.slots[drop.id] = tempslot;
+            int tempid = id;
+            id = drop.id;
+            drop.id = tempid;
         }
         bodySlot.SetParent(parent);
         eventTarget.raycastTarget = true;

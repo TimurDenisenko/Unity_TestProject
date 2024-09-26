@@ -152,9 +152,14 @@ public class SoldierControl : MonoBehaviour
 
     private void InventoryWindow_started(InputAction.CallbackContext obj)
     {
-        if (inventoryCanvas.activeSelf)
+        StorageUI(inventoryCanvas.activeSelf, inventoryCanvas);
+    }
+
+    internal void StorageUI(bool value, GameObject canvas)
+    {
+        if (value)
         {
-            inventoryCanvas.SetActive(false);
+            canvas.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             StaticSoldier.CameraComponent.enabled = true;
             StaticSoldier.Inventory.tooltip.HideTooltip();
@@ -162,7 +167,7 @@ public class SoldierControl : MonoBehaviour
         }
         else
         {
-            inventoryCanvas.SetActive(true);
+            canvas.SetActive(true);
             Cursor.lockState = CursorLockMode.Confined;
             StaticSoldier.CameraComponent.enabled = false;
             DisableControlInputs();
