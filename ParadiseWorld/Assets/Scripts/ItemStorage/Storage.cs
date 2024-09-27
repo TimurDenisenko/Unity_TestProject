@@ -46,19 +46,4 @@ public class Storage : MonoBehaviour
         SlotPrefab.id = i;
         slots.Add(Instantiate(SlotPrefab, Content));
     }
-    internal void AddItem(Slot slot, Transform content)
-    {
-        if (slot.item == null)
-        {
-            SlotPrefab.item = null;
-            SlotPrefab.id = slot.id;
-            Instantiate(SlotPrefab, content);
-        }
-        else
-        {
-            SlotPrefab.item = slot.item;
-            SlotPrefab.id = slot.id;
-            Instantiate(SlotPrefab, content);
-        }
-    }
 }

@@ -1,4 +1,6 @@
 
+using UnityEngine;
+
 public class Inventory : Storage
 {
     private void Awake()
