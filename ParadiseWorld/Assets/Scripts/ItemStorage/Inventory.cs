@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Inventory : Storage
 {
+    [SerializeField] public Transform canvasForDraggingItem;
     [SerializeField] RectTransform view;
     [SerializeField] float secondScale;
     [SerializeField] float secondPos;

@@ -14,12 +14,13 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     Image eventTarget;
     bool isEquip = false;
     Button btn;
+    Transform canvasForDraggingItem;
     Transform childrenSlot;
     Transform bodySlot;
     Transform parent;
-    internal Slot(Slot slot) 
+    private void Start()
     {
-        item = slot.item;
+        canvasForDraggingItem = StaticSoldier.Inventory.canvasForDraggingItem;
     }
     public void OnClick()
     {
@@ -119,7 +120,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if (item == null) return;
         parent = bodySlot.parent;
-        bodySlot.SetParent(bodySlot.parent.parent.parent);
+        bodySlot.SetParent(canvasForDraggingItem);
         eventTarget.raycastTarget = false;
     }
 
