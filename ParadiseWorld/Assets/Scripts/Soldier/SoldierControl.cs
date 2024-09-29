@@ -22,7 +22,7 @@ public class SoldierControl : MonoBehaviour
     [SerializeField] InputAction spell;
     [Space(10)]
     [Header("Inventory"), Space(5)]
-    [SerializeField] GameObject inventoryCanvas;
+    [SerializeField] internal GameObject inventoryCanvas;
     [SerializeField] internal GameObject currentSword;
     [SerializeField] internal Slot currentSwordSlot;
     [SerializeField] Transform activeSword;

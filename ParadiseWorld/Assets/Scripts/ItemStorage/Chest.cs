@@ -17,19 +17,14 @@ public class Chest : Storage
     private void OpenAction(InputAction.CallbackContext obj)
     {
         StaticSoldier.ControlComponent.StorageUI(chestUI.activeSelf, chestUI);
-        if (chestUI.activeSelf)
+        StaticSoldier.ControlComponent.StorageUI(StaticSoldier.ControlComponent.inventoryCanvas.activeSelf, StaticSoldier.ControlComponent.inventoryCanvas);
+        if (!chestUI.activeSelf)
         {
-            foreach (Slot slot in StaticSoldier.Inventory.slots)
-            {
-                Instantiate(slot, inventoryContent);
-            }
+            StaticSoldier.Inventory.SetFirstUI();
         }
         else
         {
-            foreach (Transform slot in inventoryContent)
-            {
-                Destroy(slot.gameObject);
-            }
+            StaticSoldier.Inventory.SetSecondUI();
         }
     }
 
