@@ -21,10 +21,12 @@ public class Chest : Storage
         if (!chestUI.activeSelf)
         {
             StaticSoldier.Inventory.SetFirstUI();
+            StaticSoldier.CurrentChest = null;
         }
         else
         {
             StaticSoldier.Inventory.SetSecondUI();
+            StaticSoldier.CurrentChest = this;
         }
     }
 

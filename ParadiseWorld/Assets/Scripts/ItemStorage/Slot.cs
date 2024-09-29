@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -130,9 +131,24 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         Slot drop = eventData.pointerEnter?.GetComponent<Slot>() ?? null;
         if (drop != null)
         {
-            int index = transform.GetSiblingIndex();
-            transform.SetSiblingIndex(drop.transform.GetSiblingIndex());
-            drop.transform.SetSiblingIndex(index);
+            if (StaticSoldier.Inventory.isChestOpen)
+            {
+                int thisIndex = transform.GetSiblingIndex();
+                int dropIndex = drop.transform.GetSiblingIndex();
+
+                Transform tempContent = StaticSoldier.Inventory.Content;
+                transform.SetParent(StaticSoldier.CurrentChest.Content);
+                drop.transform.SetParent(tempContent);
+
+                transform.SetSiblingIndex(dropIndex);
+                drop.transform.SetSiblingIndex(thisIndex);
+            }
+            else
+            {
+                int index = transform.GetSiblingIndex();
+                transform.SetSiblingIndex(drop.transform.GetSiblingIndex());
+                drop.transform.SetSiblingIndex(index);
+            }
         }
         bodySlot.SetParent(parent);
         eventTarget.raycastTarget = true;

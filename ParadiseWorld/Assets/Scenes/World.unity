@@ -465,6 +465,7 @@ MonoBehaviour:
   tooltip: {fileID: 1199883077}
   SlotsCount: 21
   SlotPrefab: {fileID: 4578030552742747549, guid: 185ab941a634f3a49ab75cc13df23a29, type: 3}
+  canvasForDraggingItem: {fileID: 894923538}
   view: {fileID: 295395628}
   secondScale: -444.6097
   secondPos: 889.22
@@ -2650,6 +2651,11 @@ MonoBehaviour:
   distance: 6
   minDistance: 4
   maxDistance: 15
+--- !u!224 &894923538 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5052673458224136039, guid: 01971ce7f6720f84d8b76a7c233451f3, type: 3}
+  m_PrefabInstance: {fileID: 8345259625156301192}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &900077970
 GameObject:
   m_ObjectHideFlags: 0
@@ -6688,6 +6694,10 @@ PrefabInstance:
     - target: {fileID: 5052673458224136039, guid: 01971ce7f6720f84d8b76a7c233451f3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8522643421240475461, guid: 01971ce7f6720f84d8b76a7c233451f3, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
