@@ -12,7 +12,7 @@ public class Chest : Storage
     {
         panel.gameObject.SetActive(false);
         action.started += OpenAction;
-        SlotsCreating();
+        SlotsCreating("ChestSlot");
     }
     private void OpenAction(InputAction.CallbackContext obj)
     {

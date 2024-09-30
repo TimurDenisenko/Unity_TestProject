@@ -9,12 +9,13 @@ public class Storage : MonoBehaviour
     [SerializeField] int SlotsCount;
     [SerializeField] Slot SlotPrefab;
     internal List<Slot> slots = new List<Slot>();
-    internal void SlotsCreating()
+    internal void SlotsCreating(string tag)
     {
         for (int i = 0; i < SlotsCount; i++)
         {
             AddItem(i);
             slots[i].LoadComponent();
+            slots[i].tag = tag;
         }
     }
 

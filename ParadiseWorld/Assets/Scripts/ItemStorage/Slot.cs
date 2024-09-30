@@ -131,7 +131,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         Slot drop = eventData.pointerEnter?.GetComponent<Slot>() ?? null;
         if (drop != null)
         {
-            if (StaticSoldier.Inventory.isChestOpen)
+            if (drop.gameObject.CompareTag("ChestSlot") && gameObject.CompareTag("InventorySlot"))
             {
                 int thisIndex = transform.GetSiblingIndex();
                 int dropIndex = drop.transform.GetSiblingIndex();
@@ -142,6 +142,10 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
                 transform.SetSiblingIndex(dropIndex);
                 drop.transform.SetSiblingIndex(thisIndex);
+
+                string thisTag = gameObject.tag;
+                gameObject.tag = drop.gameObject.tag;
+                drop.gameObject.tag = thisTag;
             }
             else
             {
