@@ -45,7 +45,6 @@ public class Storage : MonoBehaviour
     {
         SlotPrefab.item = null;
         SlotPrefab.id = i;
-        Debug.Log(SlotPrefab.id); 
         slots.Add(Instantiate(SlotPrefab, Content));
     }
 }

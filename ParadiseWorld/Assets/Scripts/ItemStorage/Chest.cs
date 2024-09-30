@@ -22,6 +22,7 @@ public class Chest : Storage
         {
             StaticSoldier.Inventory.SetFirstUI();
             StaticSoldier.CurrentChest = null;
+            Slot.StopDragging();
         }
         else
         {

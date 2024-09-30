@@ -9,6 +9,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 {
     [SerializeField] public Item item;
     [SerializeField] public int count = 1;
+    static Slot draggingSlot;
     internal int id;
     Image slotIcon;
     TMP_Text slotCount;
@@ -117,9 +118,11 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         bodySlot.position = Input.mousePosition;
     }
 
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (item == null) return;
+        draggingSlot = this;
         parent = bodySlot.parent;
         bodySlot.SetParent(canvasForDraggingItem);
         eventTarget.raycastTarget = false;
@@ -154,8 +157,12 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                 drop.transform.SetSiblingIndex(index);
             }
         }
-        bodySlot.SetParent(parent);
-        eventTarget.raycastTarget = true;
+        StopDragging();
+    }
+    internal static void StopDragging()
+    {
+        draggingSlot.bodySlot.SetParent(draggingSlot.parent);
+        draggingSlot.eventTarget.raycastTarget = true;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
