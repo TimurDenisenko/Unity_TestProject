@@ -2,6 +2,8 @@ using Assets.Scripts;
 using Assets.Scripts.Soldier;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms.Impl;
@@ -81,18 +83,24 @@ public class SoldierControl : MonoBehaviour
     }
     void OnEnable()
     {
-        EnableControlInputs();
-        inventoryWindow.Enable();
+        EnableControlInputs(true);
     }
     void OnDisable()
     {
-        DisableControlInputs();
-        inventoryWindow.Disable();
+        DisableControlInputs(true);
     }
-    private void DisableControlInputs() =>
+    private void DisableControlInputs(bool withInventoryWindow)
+    {
+        if (withInventoryWindow)
+            inventoryWindow.Disable();
         Array.ForEach(new InputAction[] { movemenet, fastRun, attack, equipment, jump, spell }, x => x.Disable());
-    private void EnableControlInputs() =>
+    }
+    private void EnableControlInputs(bool withInventoryWindow)
+    {
+        if (withInventoryWindow)
+            inventoryWindow.Enable();
         Array.ForEach(new InputAction[] { movemenet, fastRun, attack, equipment, jump, spell }, x => x.Enable());
+    }
     private void Movement(Vector2 action)
     {
         StaticSoldier.AnimationComponent.WalkAnimation();
@@ -155,7 +163,7 @@ public class SoldierControl : MonoBehaviour
         StorageUI(inventoryCanvas.activeSelf, inventoryCanvas);
     }
 
-    internal void StorageUI(bool value, GameObject canvas)
+    internal void StorageUI(bool value, GameObject canvas, bool withInventoryWindow = false)
     {
         if (value)
         {
@@ -163,14 +171,14 @@ public class SoldierControl : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             StaticSoldier.CameraComponent.enabled = true;
             StaticSoldier.Inventory.tooltip.HideTooltip();
-            EnableControlInputs();
+            EnableControlInputs(withInventoryWindow);
         }
         else
         {
             canvas.SetActive(true);
             Cursor.lockState = CursorLockMode.Confined;
             StaticSoldier.CameraComponent.enabled = false;
-            DisableControlInputs();
+            DisableControlInputs(withInventoryWindow);
         }
     }
 
