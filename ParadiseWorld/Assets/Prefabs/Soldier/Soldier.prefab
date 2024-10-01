@@ -5385,6 +5385,27 @@ MonoBehaviour:
       m_Action: Equipment
       m_Flags: 0
     m_Flags: 0
+  inventoryWindow:
+    m_Name: Inventory Window
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 36dae7d6-45d7-4adb-a80c-627e8fc59b7c
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  spell:
+    m_Name: Spell
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 5b211c39-0ced-44d9-9266-8b76dd7244d2
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  inventoryCanvas: {fileID: 0}
+  currentSword: {fileID: 0}
+  currentSwordSlot: {fileID: 0}
   activeSword: {fileID: 4640245812385755242}
   passiveSword: {fileID: 5225346152996454335}
   characterSlowing: 5
@@ -5403,5 +5424,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a8db37f7498bb449e9e71da65b4103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
   attack: 1
+  health: 10
+  restoreHealthSpeed: 0.01
+  stamina: 10
+  restoreStaminaSpeed: 0.1
+  mana: 10
+  restoreManaSpeed: 0.1
+  healthUI: {fileID: 0}
+  staminaUI: {fileID: 0}
+  manaUI: {fileID: 0}

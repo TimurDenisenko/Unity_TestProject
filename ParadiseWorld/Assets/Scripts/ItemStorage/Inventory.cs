@@ -5,8 +5,8 @@ public class Inventory : Storage
 {
     [SerializeField] public Transform canvasForDraggingItem;
     [SerializeField] RectTransform view;
-    [SerializeField] float secondScale;
     [SerializeField] float secondPos;
+    [SerializeField] float secondScale;
     float firstScale;
     float firstPos;
 
@@ -22,9 +22,9 @@ public class Inventory : Storage
         view.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, firstPos);
         view.SetLocalPositionAndRotation(new Vector3(firstScale, view.localPosition.y, 0), Quaternion.identity);
     }
-    internal void SetSecondUI()
+    internal void SetSecondUI(bool isLeft)
     {
-        view.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, secondPos);
-        view.SetLocalPositionAndRotation(new Vector3(secondScale, view.localPosition.y, 0), Quaternion.identity);
+        view.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, secondScale);
+        view.SetLocalPositionAndRotation(new Vector3(isLeft ? secondPos : -secondPos, view.localPosition.y, 0), Quaternion.identity);
     }
 }

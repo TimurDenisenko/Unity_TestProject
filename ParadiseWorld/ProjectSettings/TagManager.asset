@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - Sword
+  - InventorySlot
+  - ChestSlot
   layers:
   - Default
   - TransparentFX

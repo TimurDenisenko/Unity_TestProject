@@ -26,7 +26,7 @@ public class Chest : Storage
         }
         else
         {
-            StaticSoldier.Inventory.SetSecondUI();
+            StaticSoldier.Inventory.SetSecondUI(true);
             StaticSoldier.CurrentChest = this;
         }
     }
