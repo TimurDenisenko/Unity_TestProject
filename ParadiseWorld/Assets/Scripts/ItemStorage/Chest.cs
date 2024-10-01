@@ -15,9 +15,10 @@ public class Chest : Storage
         SlotsCreating("ChestSlot");
     }
     private void OpenAction(InputAction.CallbackContext obj)
-    {
-        StaticSoldier.ControlComponent.StorageUI(chestUI.activeSelf, chestUI, true);
-        StaticSoldier.ControlComponent.StorageUI(StaticSoldier.ControlComponent.inventoryCanvas.activeSelf, StaticSoldier.ControlComponent.inventoryCanvas, true);
+    { 
+        StaticSoldier.CurrentUI = UIType.Chest;
+        StaticSoldier.ControlComponent.StorageUI(chestUI.activeSelf, chestUI);
+        StaticSoldier.ControlComponent.StorageUI(StaticSoldier.ControlComponent.inventoryCanvas.activeSelf, StaticSoldier.ControlComponent.inventoryCanvas);
         if (!chestUI.activeSelf)
         {
             StaticSoldier.Inventory.SetFirstUI();

@@ -10,6 +10,7 @@ internal static class StaticSoldier
     internal static Inventory Inventory;
     internal static Chest CurrentChest;
     internal static SoldierStatus SoldierStatus;
+    internal static UIType CurrentUI;
     internal static bool IsActionAnimation() =>
         SoldierStatus == SoldierStatus.Jump || SoldierStatus == SoldierStatus.Attack || SoldierStatus == SoldierStatus.SwordAnimation;
     internal static void RestartAnimation() => 

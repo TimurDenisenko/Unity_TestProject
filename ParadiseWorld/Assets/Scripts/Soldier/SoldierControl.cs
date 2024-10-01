@@ -21,9 +21,11 @@ public class SoldierControl : MonoBehaviour
     [SerializeField] InputAction attack;
     [SerializeField] InputAction equipment;
     [SerializeField] InputAction inventoryWindow;
+    [SerializeField] InputAction equipmentWindow;
     [SerializeField] InputAction spell;
     [Space(10)]
     [Header("Inventory"), Space(5)]
+    [SerializeField] internal GameObject equipmentCanvas;
     [SerializeField] internal GameObject inventoryCanvas;
     [SerializeField] internal GameObject currentSword;
     [SerializeField] internal Slot currentSwordSlot;
@@ -83,23 +85,36 @@ public class SoldierControl : MonoBehaviour
     }
     void OnEnable()
     {
-        EnableControlInputs(true);
+        EnableControlInputs();
     }
     void OnDisable()
     {
-        DisableControlInputs(true);
+        DisableControlInputs();
     }
-    private void DisableControlInputs(bool withInventoryWindow)
+    private void DisableControlInputs()
     {
-        if (withInventoryWindow)
-            inventoryWindow.Disable();
+        switch (StaticSoldier.CurrentUI)
+        {
+            case UIType.None:
+                Array.ForEach(new InputAction[] { equipmentWindow, inventoryWindow }, x => x.Disable());
+                break;
+            case UIType.Inventory:
+                Array.ForEach(new InputAction[] { equipmentWindow }, x => x.Disable());
+                break;
+            case UIType.Chest:
+                Array.ForEach(new InputAction[] { equipmentWindow, inventoryWindow }, x => x.Disable());
+                break;
+            case UIType.Equipment:
+                Array.ForEach(new InputAction[] { inventoryWindow }, x => x.Disable());
+                break;
+            default:
+                break;
+        }
         Array.ForEach(new InputAction[] { movemenet, fastRun, attack, equipment, jump, spell }, x => x.Disable());
     }
-    private void EnableControlInputs(bool withInventoryWindow)
+    private void EnableControlInputs()
     {
-        if (withInventoryWindow)
-            inventoryWindow.Enable();
-        Array.ForEach(new InputAction[] { movemenet, fastRun, attack, equipment, jump, spell }, x => x.Enable());
+        Array.ForEach(new InputAction[] { movemenet, fastRun, attack, equipment, jump, spell, equipmentWindow, inventoryWindow }, x => x.Enable());
     }
     private void Movement(Vector2 action)
     {
@@ -148,7 +163,15 @@ public class SoldierControl : MonoBehaviour
         jump.started += Jump_started;
         inventoryWindow.started += InventoryWindow_started;
         spell.started += Spell_started;
+        equipmentWindow.started += EquipmentWindow_started;
     }
+
+    private void EquipmentWindow_started(InputAction.CallbackContext obj)
+    {
+        StaticSoldier.CurrentUI = UIType.Equipment;
+        StorageUI(equipmentCanvas.activeSelf, equipmentCanvas);
+    }
+
     internal void SetDefaultSpeed()
     {
         acceleration = bAcceleration;
@@ -160,25 +183,27 @@ public class SoldierControl : MonoBehaviour
 
     private void InventoryWindow_started(InputAction.CallbackContext obj)
     {
+        StaticSoldier.CurrentUI = UIType.Inventory;
         StorageUI(inventoryCanvas.activeSelf, inventoryCanvas);
     }
 
-    internal void StorageUI(bool value, GameObject canvas, bool withInventoryWindow = false)
+    internal void StorageUI(bool value, GameObject canvas)
     {
         if (value)
         {
+            StaticSoldier.CurrentUI = UIType.None;
             canvas.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             StaticSoldier.CameraComponent.enabled = true;
             StaticSoldier.Inventory.tooltip.HideTooltip();
-            EnableControlInputs(withInventoryWindow);
+            EnableControlInputs();
         }
         else
         {
             canvas.SetActive(true);
             Cursor.lockState = CursorLockMode.Confined;
             StaticSoldier.CameraComponent.enabled = false;
-            DisableControlInputs(withInventoryWindow);
+            DisableControlInputs();
         }
     }
 

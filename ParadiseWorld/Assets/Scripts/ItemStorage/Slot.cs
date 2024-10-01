@@ -170,8 +170,15 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
     internal static void StopDragging()
     {
-        draggingSlot.bodySlot.SetParent(draggingSlot.parent);
-        draggingSlot.eventTarget.raycastTarget = true;
+        try
+        {
+            draggingSlot.bodySlot.SetParent(draggingSlot.parent);
+            draggingSlot.eventTarget.raycastTarget = true;
+        }
+        catch (Exception)
+        {
+            return;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
