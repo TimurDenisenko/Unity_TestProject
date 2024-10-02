@@ -137,40 +137,56 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         Slot drop = eventData.pointerEnter?.GetComponent<Slot>() ?? null;
         if (drop != null)
         {
-            if (drop.gameObject.CompareTag("ChestSlot") && gameObject.CompareTag("InventorySlot") || drop.gameObject.CompareTag("InventorySlot") && gameObject.CompareTag("ChestSlot"))
-            {
-                int thisIndex = transform.GetSiblingIndex();
-                int dropIndex = drop.transform.GetSiblingIndex();
-
-                if (drop.gameObject.CompareTag("ChestSlot") && gameObject.CompareTag("InventorySlot"))
-                {
-                    Transform tempContent = StaticSoldier.Inventory.Content;
-                    transform.SetParent(StaticSoldier.CurrentChest.Content);
-                    drop.transform.SetParent(tempContent);
-                }
-                else
-                {
-                    Transform tempContent = StaticSoldier.CurrentChest.Content;
-                    transform.SetParent(StaticSoldier.Inventory.Content);
-                    drop.transform.SetParent(tempContent);
-                }
-
-                transform.SetSiblingIndex(dropIndex);
-                drop.transform.SetSiblingIndex(thisIndex);
-
-                string thisTag = gameObject.tag;
-                gameObject.tag = drop.gameObject.tag;
-                drop.gameObject.tag = thisTag;
-            }
-            else
-            {
-                int index = transform.GetSiblingIndex();
-                transform.SetSiblingIndex(drop.transform.GetSiblingIndex());
-                drop.transform.SetSiblingIndex(index);
-            }
+            ActionWithDraggingSlot(drop);
         }
         StopDragging();
     }
+
+    private void ActionWithDraggingSlot(Slot drop)
+    {
+        if (drop.gameObject.CompareTag("ChestSlot") && gameObject.CompareTag("InventorySlot") || drop.gameObject.CompareTag("InventorySlot") && gameObject.CompareTag("ChestSlot"))
+        {
+            DraggingBetweenChestAndInventory(drop);
+        }
+        else
+        {
+            DraggingInStorage(drop);
+        }
+    }
+
+    private void DraggingInStorage(Slot drop)
+    {
+        int index = transform.GetSiblingIndex();
+        transform.SetSiblingIndex(drop.transform.GetSiblingIndex());
+        drop.transform.SetSiblingIndex(index);
+    }
+
+    private void DraggingBetweenChestAndInventory(Slot drop)
+    {
+        int thisIndex = transform.GetSiblingIndex();
+        int dropIndex = drop.transform.GetSiblingIndex();
+
+        if (drop.gameObject.CompareTag("ChestSlot") && gameObject.CompareTag("InventorySlot"))
+        {
+            Transform tempContent = StaticSoldier.Inventory.Content;
+            transform.SetParent(StaticSoldier.CurrentChest.Content);
+            drop.transform.SetParent(tempContent);
+        }
+        else
+        {
+            Transform tempContent = StaticSoldier.CurrentChest.Content;
+            transform.SetParent(StaticSoldier.Inventory.Content);
+            drop.transform.SetParent(tempContent);
+        }
+
+        transform.SetSiblingIndex(dropIndex);
+        drop.transform.SetSiblingIndex(thisIndex);
+
+        string thisTag = gameObject.tag;
+        gameObject.tag = drop.gameObject.tag;
+        drop.gameObject.tag = thisTag;
+    }
+
     internal static void StopDragging()
     {
         try
