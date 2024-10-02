@@ -175,12 +175,12 @@ public class SoldierControl : MonoBehaviour
         if (!equipmentCanvas.activeSelf)
         {
             StaticSoldier.Inventory.SetFirstUI();
+            StaticSoldier.Inventory.SetDefaultInventory();
         }
         else
         {
             StaticSoldier.Inventory.SetSecondUI(false);
-            StaticSoldier.Inventory.slots = StaticSoldier.Inventory.slots.Where(x => x != null && x.item != null && x.item.GetType() == typeof(Sword)).ToList();
-            StaticSoldier.Inventory.UpdateStorage();
+            StaticSoldier.Inventory.SortBy(typeof(Sword));
         }
     }
 

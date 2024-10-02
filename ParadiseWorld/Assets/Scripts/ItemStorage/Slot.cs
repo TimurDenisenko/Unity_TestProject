@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,6 +9,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     [SerializeField] public Item item;
     [SerializeField] public int count = 1;
     static Slot draggingSlot;
+    Rigidbody rb;
     internal int id;
     Image slotIcon;
     TMP_Text slotCount;
@@ -23,6 +23,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private void Start()
     {
         canvasForDraggingItem = StaticSoldier.Inventory.canvasForDraggingItem;
+        rb = gameObject.GetComponent<Rigidbody>();
     }
     public void OnClick()
     {
@@ -101,8 +102,10 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     private void SetCount() 
     {
-        if (item.IsStackable)
+        if (item?.IsStackable ?? false)
             slotCount.text = count.ToString();
+        else
+            slotCount.text = "";
     } 
 
     internal void UpdateSlot() 
@@ -110,7 +113,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         SetIcon();
         SetCount();
     }
-    private void SetIcon() => slotIcon.sprite = item.Icon;
+    private void SetIcon() => slotIcon.sprite = item?.Icon ?? null;
 
     public void OnDrag(PointerEventData eventData)
     {
