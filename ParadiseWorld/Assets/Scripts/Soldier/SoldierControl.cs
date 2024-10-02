@@ -3,6 +3,7 @@ using Assets.Scripts.Soldier;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -169,7 +170,18 @@ public class SoldierControl : MonoBehaviour
     private void EquipmentWindow_started(InputAction.CallbackContext obj)
     {
         StaticSoldier.CurrentUI = UIType.Equipment;
-        StorageUI(equipmentCanvas.activeSelf, equipmentCanvas);
+        StorageUI(equipmentCanvas);
+        StorageUI(StaticSoldier.ControlComponent.inventoryCanvas);
+        if (!equipmentCanvas.activeSelf)
+        {
+            StaticSoldier.Inventory.SetFirstUI();
+        }
+        else
+        {
+            StaticSoldier.Inventory.SetSecondUI(false);
+            StaticSoldier.Inventory.slots = StaticSoldier.Inventory.slots.Where(x => x != null && x.item != null && x.item.GetType() == typeof(Sword)).ToList();
+            StaticSoldier.Inventory.UpdateStorage();
+        }
     }
 
     internal void SetDefaultSpeed()
@@ -184,12 +196,12 @@ public class SoldierControl : MonoBehaviour
     private void InventoryWindow_started(InputAction.CallbackContext obj)
     {
         StaticSoldier.CurrentUI = UIType.Inventory;
-        StorageUI(inventoryCanvas.activeSelf, inventoryCanvas);
+        StorageUI(inventoryCanvas);
     }
 
-    internal void StorageUI(bool value, GameObject canvas)
+    internal void StorageUI(GameObject canvas)
     {
-        if (value)
+        if (canvas.activeSelf)
         {
             StaticSoldier.CurrentUI = UIType.None;
             canvas.SetActive(false);

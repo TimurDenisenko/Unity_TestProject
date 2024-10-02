@@ -18,7 +18,13 @@ public class Storage : MonoBehaviour
             slots[i].tag = tag;
         }
     }
-
+    internal void UpdateStorage()
+    {
+        foreach (Slot slot in slots)
+        {
+            slot.UpdateSlot();
+        }
+    }
     internal void AddItem(Item item)
     {
         for (int i = 0; i < slots.Count; i++)

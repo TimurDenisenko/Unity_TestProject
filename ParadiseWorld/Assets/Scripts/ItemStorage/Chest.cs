@@ -17,8 +17,8 @@ public class Chest : Storage
     private void OpenAction(InputAction.CallbackContext obj)
     { 
         StaticSoldier.CurrentUI = UIType.Chest;
-        StaticSoldier.ControlComponent.StorageUI(chestUI.activeSelf, chestUI);
-        StaticSoldier.ControlComponent.StorageUI(StaticSoldier.ControlComponent.inventoryCanvas.activeSelf, StaticSoldier.ControlComponent.inventoryCanvas);
+        StaticSoldier.ControlComponent.StorageUI(chestUI);
+        StaticSoldier.ControlComponent.StorageUI(StaticSoldier.ControlComponent.inventoryCanvas);
         if (!chestUI.activeSelf)
         {
             StaticSoldier.Inventory.SetFirstUI();
