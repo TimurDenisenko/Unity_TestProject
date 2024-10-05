@@ -8,6 +8,7 @@ internal static class StaticSoldier
     internal static SoldierAnimation AnimationComponent;
     internal static CameraControl CameraComponent;
     internal static Inventory Inventory;
+    internal static CombatEquipment CombatEquipment;
     internal static Chest CurrentChest;
     internal static SoldierStatus SoldierStatus;
     internal static UIType CurrentUI;

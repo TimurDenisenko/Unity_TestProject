@@ -7,7 +7,6 @@ public class Chest : Storage
     [SerializeField] Transform panel;
     [SerializeField] InputAction action;
     [SerializeField] GameObject chestUI;
-    [SerializeField] Transform inventoryContent;
     private void Awake()
     {
         panel.gameObject.SetActive(false);

@@ -148,10 +148,31 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             DraggingBetweenChestAndInventory(drop);
         }
+        else if (drop.gameObject.CompareTag("SwordSlot") && gameObject.CompareTag("InventorySlot") || drop.gameObject.CompareTag("InventorySlot") && gameObject.CompareTag("SwordSlot"))
+        {
+            DraggingBetweenSwordAndInventory(drop);
+        }
         else
         {
             DraggingInStorage(drop);
         }
+    }
+
+    private void DraggingBetweenSwordAndInventory(Slot drop)
+    {
+        if (drop.gameObject.CompareTag("SwordSlot"))
+        {
+            transform.SetParent(StaticSoldier.CombatEquipment.Content);
+            drop.transform.SetParent(StaticSoldier.Inventory.Content);
+        }
+        else
+        {
+            transform.SetParent(StaticSoldier.Inventory.Content);
+            drop.transform.SetParent(StaticSoldier.CombatEquipment.Content);
+        }
+        string thisTag = gameObject.tag;
+        gameObject.tag = drop.gameObject.tag;
+        drop.gameObject.tag = thisTag;
     }
 
     private void DraggingInStorage(Slot drop)
@@ -166,17 +187,15 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         int thisIndex = transform.GetSiblingIndex();
         int dropIndex = drop.transform.GetSiblingIndex();
 
-        if (drop.gameObject.CompareTag("ChestSlot") && gameObject.CompareTag("InventorySlot"))
+        if (drop.gameObject.CompareTag("ChestSlot"))
         {
-            Transform tempContent = StaticSoldier.Inventory.Content;
             transform.SetParent(StaticSoldier.CurrentChest.Content);
-            drop.transform.SetParent(tempContent);
+            drop.transform.SetParent(StaticSoldier.Inventory.Content);
         }
         else
         {
-            Transform tempContent = StaticSoldier.CurrentChest.Content;
             transform.SetParent(StaticSoldier.Inventory.Content);
-            drop.transform.SetParent(tempContent);
+            drop.transform.SetParent(StaticSoldier.CurrentChest.Content);
         }
 
         transform.SetSiblingIndex(dropIndex);
