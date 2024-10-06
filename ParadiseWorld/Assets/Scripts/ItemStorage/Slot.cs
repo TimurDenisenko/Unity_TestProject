@@ -163,12 +163,14 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (drop.gameObject.CompareTag("SwordSlot"))
         {
             transform.SetParent(StaticSoldier.CombatEquipment.Content);
+            GetComponent<RectTransform>().SetLocalPositionAndRotation(drop.GetComponent<RectTransform>().localPosition, Quaternion.identity);
             drop.transform.SetParent(StaticSoldier.Inventory.Content);
         }
         else
         {
-            transform.SetParent(StaticSoldier.Inventory.Content);
             drop.transform.SetParent(StaticSoldier.CombatEquipment.Content);
+            drop.transform.GetComponent<RectTransform>().SetLocalPositionAndRotation(GetComponent<RectTransform>().localPosition, Quaternion.identity);
+            transform.SetParent(StaticSoldier.Inventory.Content);
         }
         string thisTag = gameObject.tag;
         gameObject.tag = drop.gameObject.tag;

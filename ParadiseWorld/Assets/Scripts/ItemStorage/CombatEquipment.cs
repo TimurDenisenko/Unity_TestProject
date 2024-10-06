@@ -3,6 +3,7 @@
 public class CombatEquipment : Storage
 {
     [SerializeField] Slot[] artificalSlots;
+    Vector3 position;
     private void Awake()
     {
         StaticSoldier.CombatEquipment = this;
