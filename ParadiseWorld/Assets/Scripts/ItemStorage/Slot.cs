@@ -9,9 +9,8 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     [SerializeField] public Item item;
     [SerializeField] public int count = 1;
     static Slot draggingSlot;
-    Rigidbody rb;
     internal int id;
-    Image slotIcon;
+    internal Image slotIcon;
     TMP_Text slotCount;
     Image eventTarget;
     bool isEquip = false;
@@ -20,10 +19,13 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     Transform childrenSlot;
     Transform bodySlot;
     Transform parent;
+    GridLayoutGroup gridLayoutGroup;
+    RectTransform rectTransform;
     private void Start()
     {
         canvasForDraggingItem = StaticSoldier.Inventory.canvasForDraggingItem;
-        rb = gameObject.GetComponent<Rigidbody>();
+        gridLayoutGroup = GetComponent<GridLayoutGroup>();
+        rectTransform = GetComponent<RectTransform>();
     }
     public void OnClick()
     {
@@ -163,14 +165,20 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (drop.gameObject.CompareTag("SwordSlot"))
         {
             transform.SetParent(StaticSoldier.CombatEquipment.Content);
-            GetComponent<RectTransform>().SetLocalPositionAndRotation(drop.GetComponent<RectTransform>().localPosition, Quaternion.identity);
+            rectTransform.SetLocalPositionAndRotation(drop.rectTransform.localPosition, Quaternion.identity);
+            drop.gridLayoutGroup.enabled = true;
             drop.transform.SetParent(StaticSoldier.Inventory.Content);
+            drop.SetIcon();
         }
         else
         {
+            drop.gridLayoutGroup.enabled = false;
+            int index = drop.transform.GetSiblingIndex();
             drop.transform.SetParent(StaticSoldier.CombatEquipment.Content);
-            drop.transform.GetComponent<RectTransform>().SetLocalPositionAndRotation(GetComponent<RectTransform>().localPosition, Quaternion.identity);
+            drop.rectTransform.SetLocalPositionAndRotation(rectTransform.localPosition, Quaternion.identity);
             transform.SetParent(StaticSoldier.Inventory.Content);
+            transform.SetSiblingIndex(index);
+            drop.slotIcon.sprite = CombatEquipment.EmptySwordSlot;
         }
         string thisTag = gameObject.tag;
         gameObject.tag = drop.gameObject.tag;
