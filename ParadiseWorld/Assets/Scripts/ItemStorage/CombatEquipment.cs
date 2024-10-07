@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
-public class CombatEquipment : Storage
+public class CombatEquipment : MonoBehaviour
 {
+    [SerializeField] public Transform Content;
     [SerializeField] Slot[] artificalSlot;
     public static Sprite EmptySwordSlot;
     private void Awake()

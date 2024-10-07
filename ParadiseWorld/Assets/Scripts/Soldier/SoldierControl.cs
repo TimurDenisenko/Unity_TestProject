@@ -207,7 +207,7 @@ public class SoldierControl : MonoBehaviour
             canvas.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             StaticSoldier.CameraComponent.enabled = true;
-            StaticSoldier.Inventory.tooltip.HideTooltip();
+            StorageSetting.SlotTooltip.HideTooltip();
             EnableControlInputs();
         }
         else

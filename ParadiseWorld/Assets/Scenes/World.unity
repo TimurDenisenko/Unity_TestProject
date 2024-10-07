@@ -214,9 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Content: {fileID: 1787246292}
-  tooltip: {fileID: 1199883077}
   SlotsCount: 20
-  SlotPrefab: {fileID: 4578030552742747549, guid: 185ab941a634f3a49ab75cc13df23a29, type: 3}
   panel: {fileID: 258316504}
   action:
     m_Name: Action
@@ -461,10 +459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Content: {fileID: 1623435345}
-  tooltip: {fileID: 1199883077}
   SlotsCount: 21
-  SlotPrefab: {fileID: 4578030552742747549, guid: 185ab941a634f3a49ab75cc13df23a29, type: 3}
-  canvasForDraggingItem: {fileID: 894923538}
   view: {fileID: 295395628}
   secondPos: -444.6097
   secondScale: 889.22
@@ -493,11 +488,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Content: {fileID: 723182039}
-  tooltip: {fileID: 1199883077}
-  SlotsCount: 0
-  SlotPrefab: {fileID: 0}
   artificalSlot:
   - {fileID: 1644503777}
+--- !u!114 &248339251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209249323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 125ec5ec5e5927243a9bf402a4522005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltip: {fileID: 1199883077}
+  slotPrefab: {fileID: 4578030552742747549, guid: 185ab941a634f3a49ab75cc13df23a29, type: 3}
+  canvasForDraggingItem: {fileID: 894923538}
 --- !u!1 &256140574
 GameObject:
   m_ObjectHideFlags: 0
@@ -6833,6 +6840,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7997557394888045238, guid: cd55738608502a640ab8e52bbfeedee7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 248339245}
+    - targetCorrespondingSourceObject: {fileID: 7997557394888045238, guid: cd55738608502a640ab8e52bbfeedee7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 248339251}
   m_SourcePrefab: {fileID: 100100000, guid: cd55738608502a640ab8e52bbfeedee7, type: 3}
 --- !u!1001 &4176268380831799427
 PrefabInstance:

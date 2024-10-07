@@ -15,7 +15,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     Image eventTarget;
     bool isEquip = false;
     Button btn;
-    Transform canvasForDraggingItem;
     Transform childrenSlot;
     Transform bodySlot;
     Transform parent;
@@ -23,7 +22,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     RectTransform rectTransform;
     private void Start()
     {
-        canvasForDraggingItem = StaticSoldier.Inventory.canvasForDraggingItem;
         gridLayoutGroup = GetComponent<GridLayoutGroup>();
         rectTransform = GetComponent<RectTransform>();
     }
@@ -129,7 +127,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (item == null) return;
         draggingSlot = this;
         parent = bodySlot.parent;
-        bodySlot.SetParent(canvasForDraggingItem);
+        bodySlot.SetParent(StorageSetting.CanvasForDraggingItem);
         eventTarget.raycastTarget = false;
     }
 
@@ -233,11 +231,11 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if (item == null )
             return;
-        StaticSoldier.Inventory.tooltip.ShowTooltip(item.Name);
+        StorageSetting.SlotTooltip.ShowTooltip(item.Name);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        StaticSoldier.Inventory.tooltip.HideTooltip();
+        StorageSetting.SlotTooltip.HideTooltip();
     }
 }

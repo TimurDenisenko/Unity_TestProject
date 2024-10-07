@@ -5,9 +5,7 @@ using UnityEngine;
 public class Storage : MonoBehaviour
 {
     [SerializeField] public Transform Content;
-    [SerializeField] public Tooltip tooltip;
     [SerializeField] int SlotsCount;
-    [SerializeField] Slot SlotPrefab;
     internal List<Slot> slots = new List<Slot>();
     internal void SlotsCreating(string tag)
     {
@@ -49,8 +47,8 @@ public class Storage : MonoBehaviour
     }
     internal void AddItem(int i)
     {
-        SlotPrefab.item = null;
-        SlotPrefab.id = i;
-        slots.Add(Instantiate(SlotPrefab, Content));
+        StorageSetting.SlotPrefab.item = null;
+        StorageSetting.SlotPrefab.id = i;
+        slots.Add(Instantiate(StorageSetting.SlotPrefab, Content));
     }
 }
