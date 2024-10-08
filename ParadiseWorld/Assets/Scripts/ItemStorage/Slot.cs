@@ -40,13 +40,13 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         switch (potion.potionType)
         {
             case PotionType.Health:
-                StaticSoldier.AttackComponent.RestoreHealth(potion.recovery);
+                SoldierComponents.AttackComponent.RestoreHealth(potion.recovery);
                 break;
             case PotionType.Stamina:
-                StaticSoldier.AttackComponent.RestoreStamina(potion.recovery);
+                SoldierComponents.AttackComponent.RestoreStamina(potion.recovery);
                 break;
             case PotionType.Mana:
-                StaticSoldier.AttackComponent.RestoreMana(potion.recovery);
+                SoldierComponents.AttackComponent.RestoreMana(potion.recovery);
                 break;
         }
         if (count > 1)
@@ -71,14 +71,14 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if (isEquip)
         {
-            StaticSoldier.ControlComponent.ClearSword();
+            SoldierComponents.ControlComponent.ClearSword();
             isEquip = false;
         }
         else
         {
-            if (StaticSoldier.ControlComponent.currentSword != null)
-                StaticSoldier.ControlComponent.currentSwordSlot.isEquip = false;
-            StaticSoldier.ControlComponent.EquipSword(this);
+            if (SoldierComponents.ControlComponent.currentSword != null)
+                SoldierComponents.ControlComponent.currentSwordSlot.isEquip = false;
+            SoldierComponents.ControlComponent.EquipSword(this);
             isEquip = true;
         }
     }
@@ -162,19 +162,19 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if (drop.gameObject.CompareTag("SwordSlot"))
         {
-            transform.SetParent(StaticSoldier.CombatEquipment.Content);
+            transform.SetParent(SoldierComponents.CombatEquipmentComponent.Content);
             rectTransform.SetLocalPositionAndRotation(drop.rectTransform.localPosition, Quaternion.identity);
             drop.gridLayoutGroup.enabled = true;
-            drop.transform.SetParent(StaticSoldier.Inventory.Content);
+            drop.transform.SetParent(SoldierComponents.InventoryComponent.Content);
             drop.SetIcon();
         }
         else
         {
             drop.gridLayoutGroup.enabled = false;
             int index = drop.transform.GetSiblingIndex();
-            drop.transform.SetParent(StaticSoldier.CombatEquipment.Content);
+            drop.transform.SetParent(SoldierComponents.CombatEquipmentComponent.Content);
             drop.rectTransform.SetLocalPositionAndRotation(rectTransform.localPosition, Quaternion.identity);
-            transform.SetParent(StaticSoldier.Inventory.Content);
+            transform.SetParent(SoldierComponents.InventoryComponent.Content);
             transform.SetSiblingIndex(index);
             drop.slotIcon.sprite = CombatEquipment.EmptySwordSlot;
         }
@@ -197,13 +197,13 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         if (drop.gameObject.CompareTag("ChestSlot"))
         {
-            transform.SetParent(StaticSoldier.CurrentChest.Content);
-            drop.transform.SetParent(StaticSoldier.Inventory.Content);
+            transform.SetParent(SoldierComponents.CurrentChestComponent.Content);
+            drop.transform.SetParent(SoldierComponents.InventoryComponent.Content);
         }
         else
         {
-            transform.SetParent(StaticSoldier.Inventory.Content);
-            drop.transform.SetParent(StaticSoldier.CurrentChest.Content);
+            transform.SetParent(SoldierComponents.InventoryComponent.Content);
+            drop.transform.SetParent(SoldierComponents.CurrentChestComponent.Content);
         }
 
         transform.SetSiblingIndex(dropIndex);

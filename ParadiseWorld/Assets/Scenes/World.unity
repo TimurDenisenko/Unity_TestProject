@@ -233,7 +233,7 @@ MonoBehaviour:
       m_Action: Action
       m_Flags: 0
     m_Flags: 0
-  chestUI: {fileID: 1215035139}
+  chestCanvas: {fileID: 1215035139}
 --- !u!1001 &81348719
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -460,7 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Content: {fileID: 1623435345}
   SlotsCount: 21
-  view: {fileID: 295395628}
+  inventoryScrollView: {fileID: 295395628}
   secondPos: -444.6097
   secondScale: 889.22
 --- !u!114 &248339239
@@ -505,6 +505,20 @@ MonoBehaviour:
   tooltip: {fileID: 1199883077}
   slotPrefab: {fileID: 4578030552742747549, guid: 185ab941a634f3a49ab75cc13df23a29, type: 3}
   canvasForDraggingItem: {fileID: 894923538}
+--- !u!114 &248339252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209249323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ce54347ad5265947b11aa927befaeec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipmentCanvas: {fileID: 1708875610}
+  inventoryCanvas: {fileID: 1386470418}
 --- !u!1 &256140574
 GameObject:
   m_ObjectHideFlags: 0
@@ -4183,7 +4197,7 @@ GameObject:
   - component: {fileID: 1386470421}
   - component: {fileID: 1386470420}
   m_Layer: 5
-  m_Name: Inventory
+  m_Name: InventoryUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6840,6 +6854,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7997557394888045238, guid: cd55738608502a640ab8e52bbfeedee7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 248339245}
+    - targetCorrespondingSourceObject: {fileID: 7997557394888045238, guid: cd55738608502a640ab8e52bbfeedee7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 248339252}
     - targetCorrespondingSourceObject: {fileID: 7997557394888045238, guid: cd55738608502a640ab8e52bbfeedee7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 248339251}

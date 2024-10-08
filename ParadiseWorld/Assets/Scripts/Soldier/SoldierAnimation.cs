@@ -16,31 +16,31 @@ public class SoldierAnimation : MonoBehaviour
         dust = GetComponentInChildren<ParticleSystem>();
         animator = GetComponent<Animator>();
         animatorCombat = GetComponent<Animator>();
-        StaticSoldier.AnimationComponent = this;
+        SoldierComponents.AnimationComponent = this;
         emission = dust.emission;
     }
     void Start()
     {
-        rb = StaticSoldier.ControlComponent.rb;
+        rb = SoldierComponents.ControlComponent.rb;
     }
     internal void WalkAnimation()
     {
-        if (StaticSoldier.IsActionAnimation())
+        if (SoldierComponents.IsActionAnimation())
             return;
         animator.SetBool("Walk", !animator.GetBool("Run"));
         if (animator.GetBool("Walk"))
         {
-            if (StaticSoldier.SoldierStatus == SoldierStatus.Walk)
+            if (SoldierComponents.SoldierStatus == SoldierStatus.Walk)
                 return;
-            StaticSoldier.SoldierStatus = SoldierStatus.Walk;
+            SoldierComponents.SoldierStatus = SoldierStatus.Walk;
             emission.rateOverTime = 3;
             animator.PlayAnimation("Walk");
         }
         else if (animator.GetBool("Run"))
         {
-            if (StaticSoldier.SoldierStatus == SoldierStatus.Run)
+            if (SoldierComponents.SoldierStatus == SoldierStatus.Run)
                 return;
-            StaticSoldier.SoldierStatus = SoldierStatus.Run;
+            SoldierComponents.SoldierStatus = SoldierStatus.Run;
             emission.rateOverTime = 8;
             animator.PlayAnimation("Run");
         }
@@ -49,10 +49,10 @@ public class SoldierAnimation : MonoBehaviour
     }
     internal void IdleAnimation()
     {
-        if (StaticSoldier.SoldierStatus == SoldierStatus.Idle)
+        if (SoldierComponents.SoldierStatus == SoldierStatus.Idle)
             return;
-        StaticSoldier.ControlComponent.SetDefaultSpeed();
-        StaticSoldier.SoldierStatus = SoldierStatus.Idle;
+        SoldierComponents.ControlComponent.SetDefaultSpeed();
+        SoldierComponents.SoldierStatus = SoldierStatus.Idle;
         animator.SetBool("Walk", false);
         animator.PlayAnimation("Idle");
         if (dust.isPlaying)
@@ -61,19 +61,19 @@ public class SoldierAnimation : MonoBehaviour
     //Баг с с изменением скорости
     internal IEnumerator AttackAnimation()
     {
-        StaticSoldier.SoldierStatus = SoldierStatus.Attack;
+        SoldierComponents.SoldierStatus = SoldierStatus.Attack;
         emission.rateOverTime = 0;
         animator.PlayAnimation("Attack", layer: 1);
         yield return new WaitForSeconds(1.25f);
         IdleAnimation();
-        StaticSoldier.ControlComponent.SetDefaultSpeed();
+        SoldierComponents.ControlComponent.SetDefaultSpeed();
     }
     //Баг с резким прыжком
     //Баг с с изменением скорости
     internal IEnumerator JumpAnimation()
     {
-        jumpHeight = StaticSoldier.ControlComponent.jumpHeight;
-        StaticSoldier.SoldierStatus = SoldierStatus.Jump;
+        jumpHeight = SoldierComponents.ControlComponent.jumpHeight;
+        SoldierComponents.SoldierStatus = SoldierStatus.Jump;
         animator.PlayAnimation("Jump");
         if (AnimatorExtension.state == "")
         {
@@ -96,18 +96,18 @@ public class SoldierAnimation : MonoBehaviour
     internal IEnumerator EquipmentAnimation()
     {
         animator.SetBool("SwordEquipped", AnimatorExtension.state == "Sword");
-        StaticSoldier.SoldierStatus = SoldierStatus.SwordAnimation;
+        SoldierComponents.SoldierStatus = SoldierStatus.SwordAnimation;
         if (!animator.GetBool("SwordEquipped"))
         {
             animator.PlayAnimation("Withdrawing", false, 1);
             yield return new WaitForSeconds(0.5f);
-            StaticSoldier.ControlComponent.SwordWithdrawing();
+            SoldierComponents.ControlComponent.SwordWithdrawing();
         }
         else
         {
             animator.PlayAnimation("Sheathing", false, 1);
             yield return new WaitForSeconds(1);
-            StaticSoldier.ControlComponent.SwordSheating();
+            SoldierComponents.ControlComponent.SwordSheating();
         }
         IdleAnimation();
     }

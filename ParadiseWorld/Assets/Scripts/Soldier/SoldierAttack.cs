@@ -21,7 +21,7 @@ public class SoldierAttack : MonoBehaviour
         totalHealth = health;
         totalStamina = stamina;
         totalMana = mana;
-        StaticSoldier.AttackComponent = this;
+        SoldierComponents.AttackComponent = this;
     }
     internal void UseMana(float usedMana)
     {
@@ -77,7 +77,7 @@ public class SoldierAttack : MonoBehaviour
     }
     internal void DealDamage(GameObject collision)
     {
-        if (collision.CompareTag("Enemy") && StaticSoldier.SoldierStatus == SoldierStatus.Attack)
+        if (collision.CompareTag("Enemy") && SoldierComponents.SoldierStatus == SoldierStatus.Attack)
         {
             EnemyAttack enemy = collision.GetComponent<EnemyAttack>();
             enemy.ReceiveDamage(attack);

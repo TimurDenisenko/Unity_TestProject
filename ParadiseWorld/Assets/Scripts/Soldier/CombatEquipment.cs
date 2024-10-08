@@ -7,7 +7,7 @@ public class CombatEquipment : MonoBehaviour
     public static Sprite EmptySwordSlot;
     private void Awake()
     {
-        StaticSoldier.CombatEquipment = this;
+        SoldierComponents.CombatEquipmentComponent = this;
         foreach (Slot slot in artificalSlot)
         {
             slot.LoadComponent();

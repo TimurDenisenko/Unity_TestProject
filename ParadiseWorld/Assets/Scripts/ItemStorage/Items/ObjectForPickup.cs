@@ -9,7 +9,7 @@ public class ObjectForPickup : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            StaticSoldier.Inventory.AddItem(Item);
+            SoldierComponents.InventoryComponent.AddItem(Item);
             Destroy(gameObject);
         }
     }

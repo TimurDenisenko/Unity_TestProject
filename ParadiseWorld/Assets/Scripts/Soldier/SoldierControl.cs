@@ -26,8 +26,6 @@ public class SoldierControl : MonoBehaviour
     [SerializeField] InputAction spell;
     [Space(10)]
     [Header("Inventory"), Space(5)]
-    [SerializeField] internal GameObject equipmentCanvas;
-    [SerializeField] internal GameObject inventoryCanvas;
     [SerializeField] internal GameObject currentSword;
     [SerializeField] internal Slot currentSwordSlot;
     [SerializeField] Transform activeSword;
@@ -45,38 +43,38 @@ public class SoldierControl : MonoBehaviour
     float defaultAttack;
     void Awake()
     {
-        StaticSoldier.ControlComponent = this;
+        SoldierComponents.ControlComponent = this;
         rb = GetComponent<Rigidbody>();
         AnimatorExtension.state = "";
         EventsAssigment();
     }
     private void Start()
     {
-        defaultAttack = StaticSoldier.AttackComponent.attack;
+        defaultAttack = SoldierComponents.AttackComponent.attack;
     }
     void Update()
     {
-        if (StaticSoldier.SoldierStatus == SoldierStatus.Run)
+        if (SoldierComponents.SoldierStatus == SoldierStatus.Run)
         {
-            StaticSoldier.AttackComponent.UseStamina(0.01f);
-            if (StaticSoldier.AttackComponent.stamina < 1)
+            SoldierComponents.AttackComponent.UseStamina(0.01f);
+            if (SoldierComponents.AttackComponent.stamina < 1)
             {
                 StopRunning();
             }
         }
         else
         {
-            StaticSoldier.AttackComponent.RestoreStamina();
+            SoldierComponents.AttackComponent.RestoreStamina();
         }
-        StaticSoldier.AttackComponent.RestoreHealth();
-        StaticSoldier.AttackComponent.RestoreMana();
+        SoldierComponents.AttackComponent.RestoreHealth();
+        SoldierComponents.AttackComponent.RestoreMana();
     }
     void LateUpdate()
     {
         Vector2 action = movemenet.ReadValue<Vector2>();
-        if (action == Vector2.zero && !StaticSoldier.IsActionAnimation())
+        if (action == Vector2.zero && !SoldierComponents.IsActionAnimation())
         {
-            StaticSoldier.AnimationComponent.IdleAnimation();
+            SoldierComponents.AnimationComponent.IdleAnimation();
         }
         else
         {
@@ -92,9 +90,9 @@ public class SoldierControl : MonoBehaviour
     {
         DisableControlInputs();
     }
-    private void DisableControlInputs()
+    internal void DisableControlInputs()
     {
-        switch (StaticSoldier.CurrentUI)
+        switch (SoldierComponents.CurrentUI)
         {
             case UIType.None:
                 Array.ForEach(new InputAction[] { equipmentWindow, inventoryWindow }, x => x.Disable());
@@ -113,13 +111,13 @@ public class SoldierControl : MonoBehaviour
         }
         Array.ForEach(new InputAction[] { movemenet, fastRun, attack, equipment, jump, spell }, x => x.Disable());
     }
-    private void EnableControlInputs()
+    internal void EnableControlInputs()
     {
         Array.ForEach(new InputAction[] { movemenet, fastRun, attack, equipment, jump, spell, equipmentWindow, inventoryWindow }, x => x.Enable());
     }
     private void Movement(Vector2 action)
     {
-        StaticSoldier.AnimationComponent.WalkAnimation();
+        SoldierComponents.AnimationComponent.WalkAnimation();
         ChangeCharacterPosition(action / characterSlowing);
         ChangeLookPosition();
     }
@@ -134,7 +132,7 @@ public class SoldierControl : MonoBehaviour
     }
     private void RotateCharacter(Vector2 action)
     {
-        if (action == Vector2.zero && StaticSoldier.SoldierStatus == SoldierStatus.Attack)
+        if (action == Vector2.zero && SoldierComponents.SoldierStatus == SoldierStatus.Attack)
             return;
         int xAction = Mathf.RoundToInt(action.x);
         int yAction = Mathf.RoundToInt(action.y);
@@ -162,26 +160,9 @@ public class SoldierControl : MonoBehaviour
         attack.started += Attack_started;
         equipment.started += Equipment_started;
         jump.started += Jump_started;
-        inventoryWindow.started += InventoryWindow_started;
         spell.started += Spell_started;
-        equipmentWindow.started += EquipmentWindow_started;
-    }
-
-    private void EquipmentWindow_started(InputAction.CallbackContext obj)
-    {
-        StaticSoldier.CurrentUI = UIType.Equipment;
-        StorageUI(equipmentCanvas);
-        StorageUI(StaticSoldier.ControlComponent.inventoryCanvas);
-        if (!equipmentCanvas.activeSelf)
-        {
-            StaticSoldier.Inventory.SetFirstUI();
-            StaticSoldier.Inventory.SetDefaultInventory();
-        }
-        else
-        {
-            StaticSoldier.Inventory.SetSecondUI(false);
-            StaticSoldier.Inventory.SortBy(typeof(Sword));
-        }
+        inventoryWindow.started += (obj) => SoldierComponents.InterfaceComponent.InventoryWindow();
+        equipmentWindow.started += (obj) => SoldierComponents.InterfaceComponent.CombatEquipmentWindow();
     }
 
     internal void SetDefaultSpeed()
@@ -190,51 +171,25 @@ public class SoldierControl : MonoBehaviour
     }
     private void Spell_started(InputAction.CallbackContext obj)
     {
-        StaticSoldier.AttackComponent.UseMana(1);
-    }
-
-    private void InventoryWindow_started(InputAction.CallbackContext obj)
-    {
-        StaticSoldier.CurrentUI = UIType.Inventory;
-        StorageUI(inventoryCanvas);
-    }
-
-    internal void StorageUI(GameObject canvas)
-    {
-        if (canvas.activeSelf)
-        {
-            StaticSoldier.CurrentUI = UIType.None;
-            canvas.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
-            StaticSoldier.CameraComponent.enabled = true;
-            StorageSetting.SlotTooltip.HideTooltip();
-            EnableControlInputs();
-        }
-        else
-        {
-            canvas.SetActive(true);
-            Cursor.lockState = CursorLockMode.Confined;
-            StaticSoldier.CameraComponent.enabled = false;
-            DisableControlInputs();
-        }
+        SoldierComponents.AttackComponent.UseMana(1);
     }
 
     private void Jump_started(InputAction.CallbackContext obj)
     {
-        if (!StaticSoldier.IsActionAnimation())
+        if (!SoldierComponents.IsActionAnimation())
         {
             bAcceleration = acceleration;
             acceleration = 0.5f;
-            StartCoroutine(StaticSoldier.AnimationComponent.JumpAnimation());
+            StartCoroutine(SoldierComponents.AnimationComponent.JumpAnimation());
         }
     }
     private void Equipment_started(InputAction.CallbackContext obj)
     {
-        if (!StaticSoldier.IsActionAnimation() && currentSword != null)
+        if (!SoldierComponents.IsActionAnimation() && currentSword != null)
         {
             bAcceleration = acceleration;
             acceleration = 0.5f;
-            StartCoroutine(StaticSoldier.AnimationComponent.EquipmentAnimation());
+            StartCoroutine(SoldierComponents.AnimationComponent.EquipmentAnimation());
         }
         acceleration = bAcceleration;
     }
@@ -242,10 +197,10 @@ public class SoldierControl : MonoBehaviour
     {
         ChangeSwordTransform(activeSword);
         AnimatorExtension.state = "Sword";
-        StaticSoldier.SoldierStatus = SoldierStatus.SwordAnimation;
+        SoldierComponents.SoldierStatus = SoldierStatus.SwordAnimation;
         if (currentSwordSlot.item is Sword sword)
         {
-            StaticSoldier.AttackComponent.attack = sword.attack;
+            SoldierComponents.AttackComponent.attack = sword.attack;
             hitStamina = sword.staminaConsumption;
         }
     }
@@ -254,8 +209,8 @@ public class SoldierControl : MonoBehaviour
         if (currentSword != null)
             ChangeSwordTransform(passiveSword);
         AnimatorExtension.state = "";
-        StaticSoldier.RestartAnimation();
-        StaticSoldier.AttackComponent.attack = defaultAttack;
+        SoldierComponents.RestartAnimation();
+        SoldierComponents.AttackComponent.attack = defaultAttack;
         hitStamina = 1f;
     }
     public void EquipSword(Slot swordSlot)
@@ -266,13 +221,13 @@ public class SoldierControl : MonoBehaviour
         currentSwordSlot = swordSlot;
         ChangeSwordTransform(passiveSword);
         AnimatorExtension.state = "";
-        StaticSoldier.RestartAnimation();
+        SoldierComponents.RestartAnimation();
     }
     public void ClearSword()
     {
         Destroy(currentSword);
         currentSword = null;
-        StaticSoldier.AnimationComponent.animator.SetBool("SwordEquipped", false);
+        SoldierComponents.AnimationComponent.animator.SetBool("SwordEquipped", false);
         SwordSheating();
     }
     private void ChangeSwordTransform(Transform sword)
@@ -285,22 +240,22 @@ public class SoldierControl : MonoBehaviour
 
     private void Attack_started(InputAction.CallbackContext obj)
     {
-        if (StaticSoldier.AttackComponent.stamina < 1 || (StaticSoldier.AttackComponent.stamina-5) < 1)
+        if (SoldierComponents.AttackComponent.stamina < 1 || (SoldierComponents.AttackComponent.stamina-5) < 1)
             return;
-        StaticSoldier.AttackComponent.UseStamina(hitStamina);
+        SoldierComponents.AttackComponent.UseStamina(hitStamina);
         bAcceleration = acceleration;
         acceleration = 0.5f;
-        StartCoroutine(StaticSoldier.AnimationComponent.AttackAnimation());
+        StartCoroutine(SoldierComponents.AnimationComponent.AttackAnimation());
     }
     private void StopRunning()
     {
-        StaticSoldier.AnimationComponent.animator.SetBool("Run", false);
+        SoldierComponents.AnimationComponent.animator.SetBool("Run", false);
         acceleration = 1;
     }
 
     private void FastRun_started(InputAction.CallbackContext obj)
     {
-        StaticSoldier.AnimationComponent.animator.SetBool("Run", true);
+        SoldierComponents.AnimationComponent.animator.SetBool("Run", true);
         acceleration = characterAcceleration;
     }
 }

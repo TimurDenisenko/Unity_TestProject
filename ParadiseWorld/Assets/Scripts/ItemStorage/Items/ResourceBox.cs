@@ -30,7 +30,7 @@ public class ResourceBox : MonoBehaviour
     {
         int value = Random.Range(1, 100);
         Item item = uDict[uDict.Keys.Where(x => x >= value).Min()];
-        StaticSoldier.Inventory.AddItem(item);
+        SoldierComponents.InventoryComponent.AddItem(item);
         Destroy(this);
     }
 

@@ -5,29 +5,19 @@ using UnityEngine;
 
 public class Inventory : Storage
 {
-    [SerializeField] RectTransform view;
-    [SerializeField] float secondPos;
-    [SerializeField] float secondScale;
+    [SerializeField] public RectTransform inventoryScrollView;
+    [SerializeField] public float secondPos;
+    [SerializeField] public float secondScale;
     List<Item> defaultItemsInInventory;
-    float firstScale;
-    float firstPos;
+    internal float defaultPos;
+    internal float defaultScale;
 
     private void Awake()
     {
-        StaticSoldier.Inventory = this;
+        SoldierComponents.InventoryComponent = this;
         SlotsCreating("InventorySlot");
-        firstScale = view.localPosition.x;
-        firstPos = view.rect.width;
-    }
-    internal void SetFirstUI()
-    {
-        view.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, firstPos);
-        view.SetLocalPositionAndRotation(new Vector3(firstScale, view.localPosition.y, 0), Quaternion.identity);
-    }
-    internal void SetSecondUI(bool isLeft)
-    {
-        view.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, secondScale);
-        view.SetLocalPositionAndRotation(new Vector3(isLeft ? secondPos : -secondPos, view.localPosition.y, 0), Quaternion.identity);
+        defaultPos = inventoryScrollView.localPosition.x;
+        defaultScale = inventoryScrollView.rect.width;
     }
     internal void SortBy(Type type)
     {

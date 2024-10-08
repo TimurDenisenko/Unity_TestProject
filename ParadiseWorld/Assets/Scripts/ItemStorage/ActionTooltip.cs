@@ -5,7 +5,7 @@ public class ActionTooltip : MonoBehaviour
 {
     private void LateUpdate()
     {
-        transform.LookAt(StaticSoldier.CameraComponent.transform);
+        transform.LookAt(SoldierComponents.CameraComponent.transform);
     }
     private void OnTriggerEnter(Collider other)
     {

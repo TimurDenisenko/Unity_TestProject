@@ -6,36 +6,19 @@ public class Chest : Storage
 {
     [SerializeField] Transform panel;
     [SerializeField] InputAction action;
-    [SerializeField] GameObject chestUI;
+    [SerializeField] public GameObject chestCanvas;
     private void Awake()
     {
         panel.gameObject.SetActive(false);
-        action.started += OpenAction;
+        action.started += (obj) => SoldierComponents.InterfaceComponent.ChestWindow(this);
         SlotsCreating("ChestSlot");
-    }
-    private void OpenAction(InputAction.CallbackContext obj)
-    { 
-        StaticSoldier.CurrentUI = UIType.Chest;
-        StaticSoldier.ControlComponent.StorageUI(chestUI);
-        StaticSoldier.ControlComponent.StorageUI(StaticSoldier.ControlComponent.inventoryCanvas);
-        if (!chestUI.activeSelf)
-        {
-            StaticSoldier.Inventory.SetFirstUI();
-            StaticSoldier.CurrentChest = null;
-            Slot.StopDragging();
-        }
-        else
-        {
-            StaticSoldier.Inventory.SetSecondUI(true);
-            StaticSoldier.CurrentChest = this;
-        }
     }
 
     private void LateUpdate()
     {
         if (panel.gameObject.activeSelf)
         {
-            panel.LookAt(StaticSoldier.CameraComponent.transform);
+            panel.LookAt(SoldierComponents.CameraComponent.transform);
         }
     }
     private void OnTriggerEnter(Collider other)

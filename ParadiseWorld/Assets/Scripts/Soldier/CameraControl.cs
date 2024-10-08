@@ -29,7 +29,7 @@ public class CameraControl : MonoBehaviour
     Vector2 rotationVelocity;
     void Awake()
     {
-       StaticSoldier.CameraComponent = this;
+       SoldierComponents.CameraComponent = this;
     }
     void Start()
     {
