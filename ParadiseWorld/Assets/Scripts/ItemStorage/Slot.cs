@@ -13,7 +13,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     internal Image slotIcon;
     TMP_Text slotCount;
     Image eventTarget;
-    bool isEquip = false;
     Button btn;
     Transform childrenSlot;
     Transform bodySlot;
@@ -28,7 +27,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void OnClick()
     {
         if (item is Sword sword)
-            SwordAction();
+            SoldierComponents.CombatEquipmentComponent.SwordInteraction(this);
         else if (item is Potion potion)
         {
             PotionAction(potion);
@@ -65,22 +64,6 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         item = null;    
         slotIcon.sprite = null;
         slotCount.text = null;
-    }
-
-    private void SwordAction()
-    {
-        if (isEquip)
-        {
-            SoldierComponents.ControlComponent.ClearSword();
-            isEquip = false;
-        }
-        else
-        {
-            if (SoldierComponents.ControlComponent.currentSword != null)
-                SoldierComponents.ControlComponent.currentSwordSlot.isEquip = false;
-            SoldierComponents.ControlComponent.EquipSword(this);
-            isEquip = true;
-        }
     }
     internal void LoadComponent()
     {

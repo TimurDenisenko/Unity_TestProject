@@ -6,22 +6,14 @@ using System.Collections;
 public class SoldierAnimation : MonoBehaviour
 {
     internal Animator animator;
-    float jumpHeight;
-    Rigidbody rb;
     ParticleSystem dust;
-    Animator animatorCombat;
     EmissionModule emission;
     void Awake()
     {
         dust = GetComponentInChildren<ParticleSystem>();
         animator = GetComponent<Animator>();
-        animatorCombat = GetComponent<Animator>();
         SoldierComponents.AnimationComponent = this;
         emission = dust.emission;
-    }
-    void Start()
-    {
-        rb = SoldierComponents.ControlComponent.rb;
     }
     internal void WalkAnimation()
     {
@@ -72,23 +64,15 @@ public class SoldierAnimation : MonoBehaviour
     //Баг с с изменением скорости
     internal IEnumerator JumpAnimation()
     {
-        jumpHeight = SoldierComponents.ControlComponent.jumpHeight;
         SoldierComponents.SoldierStatus = SoldierStatus.Jump;
         animator.PlayAnimation("Jump");
         if (AnimatorExtension.state == "")
         {
-            yield return new WaitForSeconds(0.6f);
-            rb.AddForce(Vector3.up * jumpHeight);
-            rb.velocity = new Vector3(0, rb.velocity.y * jumpHeight);
-            yield return new WaitForSeconds(0.4f);
-            rb.AddForce(Vector3.down * jumpHeight);
+            yield return new WaitForSeconds(1f);
         }
         else if (AnimatorExtension.state == "Sword")
         {
-            yield return new WaitForSeconds(0.2f);
-            rb.AddForce(Vector3.up * jumpHeight);
-            yield return new WaitForSeconds(0.2f);
-            rb.AddForce(Vector3.down * jumpHeight);
+            yield return new WaitForSeconds(0.4f);
         }
         yield return new WaitForSeconds(0.2f);
         IdleAnimation();
@@ -101,13 +85,13 @@ public class SoldierAnimation : MonoBehaviour
         {
             animator.PlayAnimation("Withdrawing", false, 1);
             yield return new WaitForSeconds(0.5f);
-            SoldierComponents.ControlComponent.SwordWithdrawing();
+            SoldierComponents.CombatEquipmentComponent.SwordWithdrawing();
         }
         else
         {
             animator.PlayAnimation("Sheathing", false, 1);
             yield return new WaitForSeconds(1);
-            SoldierComponents.ControlComponent.SwordSheating();
+            SoldierComponents.CombatEquipmentComponent.SwordSheating();
         }
         IdleAnimation();
     }

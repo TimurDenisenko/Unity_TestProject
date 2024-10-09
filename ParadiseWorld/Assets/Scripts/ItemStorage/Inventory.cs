@@ -12,7 +12,7 @@ public class Inventory : Storage
     internal float defaultPos;
     internal float defaultScale;
 
-    private void Awake()
+    private void Start()
     {
         SoldierComponents.InventoryComponent = this;
         SlotsCreating("InventorySlot");

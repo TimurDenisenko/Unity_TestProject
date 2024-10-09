@@ -7,7 +7,7 @@ public class Chest : Storage
     [SerializeField] Transform panel;
     [SerializeField] InputAction action;
     [SerializeField] public GameObject chestCanvas;
-    private void Awake()
+    private void Start()
     {
         panel.gameObject.SetActive(false);
         action.started += (obj) => SoldierComponents.InterfaceComponent.ChestWindow(this);

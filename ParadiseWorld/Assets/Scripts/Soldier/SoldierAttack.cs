@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SoldierAttack : MonoBehaviour
 {
     [SerializeField] public float attack = 1f;
+    [SerializeField] public float staminaConsumption = 1f;
     [SerializeField] public float health = 10f;
     [SerializeField] public float restoreHealthSpeed = 0.01f;
     [SerializeField] public float stamina = 10f;
@@ -16,13 +17,19 @@ public class SoldierAttack : MonoBehaviour
     [SerializeField] public Image manaUI;
     float totalHealth, totalStamina, totalMana;
     internal bool isAlive = true;
+    float defaultAttack;
+    float defaultstaminaConsumption;
     private void Awake()
     {
         totalHealth = health;
         totalStamina = stamina;
         totalMana = mana;
         SoldierComponents.AttackComponent = this;
+        defaultAttack = attack;
+        defaultstaminaConsumption = staminaConsumption;
     }
+    internal void SetDefaultAttack() => attack = defaultAttack;
+    internal void SetDefaultStaminaConsumption() => staminaConsumption = defaultstaminaConsumption;
     internal void UseMana(float usedMana)
     {
         mana -= usedMana;

@@ -1,19 +1,13 @@
-using Assets.Scripts;
 using Assets.Scripts.Soldier;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class SoldierControl : MonoBehaviour
 {
     [Header("Camera"), Space(5)]
     [SerializeField] Transform lookAt;
-    [SerializeField][Tooltip("X and Z")] Vector2 offset;
+    [SerializeField, Tooltip("X and Z")] Vector2 offset;
     [Space(10)]
     [Header("Inputs"), Space(5)]
     [SerializeField] InputAction movemenet;
@@ -25,32 +19,23 @@ public class SoldierControl : MonoBehaviour
     [SerializeField] InputAction equipmentWindow;
     [SerializeField] InputAction spell;
     [Space(10)]
-    [Header("Inventory"), Space(5)]
-    [SerializeField] internal GameObject currentSword;
-    [SerializeField] internal Slot currentSwordSlot;
-    [SerializeField] Transform activeSword;
-    [SerializeField] Transform passiveSword;
+    [Header("Sword"), Space(5)]
+    [SerializeField] public Transform activeSword;
+    [SerializeField] public Transform passiveSword;
     [Space(10)]
     [Header("Characteristics"), Space(5)]
     [SerializeField] float characterSlowing = 10;
     [SerializeField] float characterAcceleration = 2;
-    [SerializeField] internal float jumpHeight = 1f;
     [SerializeField] float rotateSpeed = 0.1f;
     internal Rigidbody rb;
     float acceleration = 1f;
     float bAcceleration = 1f;
-    float hitStamina = 1f;
-    float defaultAttack;
     void Awake()
     {
         SoldierComponents.ControlComponent = this;
         rb = GetComponent<Rigidbody>();
         AnimatorExtension.state = "";
         EventsAssigment();
-    }
-    private void Start()
-    {
-        defaultAttack = SoldierComponents.AttackComponent.attack;
     }
     void Update()
     {
@@ -185,7 +170,7 @@ public class SoldierControl : MonoBehaviour
     }
     private void Equipment_started(InputAction.CallbackContext obj)
     {
-        if (!SoldierComponents.IsActionAnimation() && currentSword != null)
+        if (!SoldierComponents.IsActionAnimation() && SoldierComponents.CombatEquipmentComponent.currentSword != null)
         {
             bAcceleration = acceleration;
             acceleration = 0.5f;
@@ -193,56 +178,13 @@ public class SoldierControl : MonoBehaviour
         }
         acceleration = bAcceleration;
     }
-    internal void SwordWithdrawing()
-    {
-        ChangeSwordTransform(activeSword);
-        AnimatorExtension.state = "Sword";
-        SoldierComponents.SoldierStatus = SoldierStatus.SwordAnimation;
-        if (currentSwordSlot.item is Sword sword)
-        {
-            SoldierComponents.AttackComponent.attack = sword.attack;
-            hitStamina = sword.staminaConsumption;
-        }
-    }
-    internal void SwordSheating()
-    {
-        if (currentSword != null)
-            ChangeSwordTransform(passiveSword);
-        AnimatorExtension.state = "";
-        SoldierComponents.RestartAnimation();
-        SoldierComponents.AttackComponent.attack = defaultAttack;
-        hitStamina = 1f;
-    }
-    public void EquipSword(Slot swordSlot)
-    {
-        if (currentSword != null)
-            Destroy(currentSword.gameObject);
-        currentSword = Instantiate(((Sword)swordSlot.item).SwordObject, passiveSword);
-        currentSwordSlot = swordSlot;
-        ChangeSwordTransform(passiveSword);
-        AnimatorExtension.state = "";
-        SoldierComponents.RestartAnimation();
-    }
-    public void ClearSword()
-    {
-        Destroy(currentSword);
-        currentSword = null;
-        SoldierComponents.AnimationComponent.animator.SetBool("SwordEquipped", false);
-        SwordSheating();
-    }
-    private void ChangeSwordTransform(Transform sword)
-    {
-        currentSword.transform.SetParent(sword);
-        currentSword.transform.localPosition = Vector3.zero;
-        currentSword.transform.localRotation = Quaternion.Euler(Vector3.zero);
-        currentSword.transform.localScale = new Vector3(1, 1, 1);
-    }
+    
 
     private void Attack_started(InputAction.CallbackContext obj)
     {
         if (SoldierComponents.AttackComponent.stamina < 1 || (SoldierComponents.AttackComponent.stamina-5) < 1)
             return;
-        SoldierComponents.AttackComponent.UseStamina(hitStamina);
+        SoldierComponents.AttackComponent.UseStamina(SoldierComponents.AttackComponent.staminaConsumption);
         bAcceleration = acceleration;
         acceleration = 0.5f;
         StartCoroutine(SoldierComponents.AnimationComponent.AttackAnimation());
