@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
@@ -26,12 +27,8 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
     public void OnClick()
     {
-        if (item is Sword sword)
-            SoldierComponents.CombatEquipmentComponent.SwordInteraction(this);
-        else if (item is Potion potion)
-        {
+        if (item is Potion potion)
             PotionAction(potion);
-        }
     }
 
     private void PotionAction(Potion potion)
@@ -150,6 +147,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             drop.gridLayoutGroup.enabled = true;
             drop.transform.SetParent(SoldierComponents.InventoryComponent.Content);
             drop.SetIcon();
+            SoldierComponents.CombatEquipmentComponent.EquipSword(this, item.ItemObject);
         }
         else
         {
@@ -160,6 +158,7 @@ public class Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             transform.SetParent(SoldierComponents.InventoryComponent.Content);
             transform.SetSiblingIndex(index);
             drop.slotIcon.sprite = CombatEquipment.EmptySwordSlot;
+            SoldierComponents.CombatEquipmentComponent.ClearSword();
         }
         string thisTag = gameObject.tag;
         gameObject.tag = drop.gameObject.tag;

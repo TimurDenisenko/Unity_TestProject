@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Soldier;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CombatEquipment : MonoBehaviour
@@ -17,20 +18,6 @@ public class CombatEquipment : MonoBehaviour
             slot.LoadComponent();
             if (slot.CompareTag("SwordSlot"))
                 EmptySwordSlot = slot.slotIcon.sprite;
-        }
-    }
-    public void SwordInteraction(Slot swordSlot)
-    {
-        if (isSwordEquipped)
-        {
-            ClearSword();
-            isSwordEquipped = false;
-        }
-        else
-        {
-            currentSwordSlot = swordSlot;
-            EquipSword(currentSwordSlot);
-            isSwordEquipped = true;
         }
     }
     internal void SwordWithdrawing()
@@ -53,11 +40,11 @@ public class CombatEquipment : MonoBehaviour
         SoldierComponents.AttackComponent.SetDefaultAttack();
         SoldierComponents.AttackComponent.SetDefaultStaminaConsumption();
     }
-    public void EquipSword(Slot swordSlot)
+    public void EquipSword(Slot swordSlot, GameObject swordobject)
     {
         if (currentSword != null)
             Destroy(currentSword.gameObject);
-        currentSword = Instantiate(((Sword)swordSlot.item).SwordObject, SoldierComponents.ControlComponent.passiveSword);
+        currentSword = Instantiate(swordobject, SoldierComponents.ControlComponent.passiveSword);
         currentSwordSlot = swordSlot;
         ChangeSwordTransform(SoldierComponents.ControlComponent.passiveSword);
         AnimatorExtension.state = "";

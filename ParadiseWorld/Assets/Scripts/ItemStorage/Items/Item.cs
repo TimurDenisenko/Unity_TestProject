@@ -7,6 +7,7 @@ public class Item : ScriptableObject
     public bool IsStackable;
     public int Capacity = 1;
     public Sprite Icon;
+    public GameObject ItemObject;
     public virtual Item DeepCopy()
     {
         Item newItem = CreateInstance<Item>();
