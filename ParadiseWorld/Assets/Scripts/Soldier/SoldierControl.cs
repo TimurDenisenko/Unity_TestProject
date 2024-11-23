@@ -113,7 +113,7 @@ public class SoldierControl : MonoBehaviour
     private void ChangeCharacterPosition(Vector2 speed)
     {
         Vector3 movement = acceleration * (new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z) * speed.y + Camera.main.transform.right * speed.x);
-        rb.velocity = movement;
+        rb.linearVelocity = movement;
     }
     private void RotateCharacter(Vector2 action)
     {

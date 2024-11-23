@@ -41,7 +41,7 @@ public class CameraControl : MonoBehaviour
     }
     private void CameraZoom_started(InputAction.CallbackContext obj)
     {
-        distance += cameraZoom.ReadValue<float>() / -120;
+        distance += cameraZoom.ReadValue<Vector2>().y;
         distance = Mathf.Clamp(distance, minDistance, maxDistance);
         minVerticalAngle = Mathf.Clamp(angleBetweenOne * distance + bValue, minVerticalAngle, 0);
         ChangeCameraRotation(false);
