@@ -2866,9 +2866,9 @@ MonoBehaviour:
   follow: {fileID: 269837625}
   sensitivity: 0.5
   speedOfChange: 1
-  minVerticalAngle: -45
-  maxVerticalAngle: 30
-  distance: 6
+  minVerticalAngleAtMinDistance: -75
+  minVerticalAngleAtMaxDistance: -10
+  maxVerticalAngle: 75
   minDistance: 4
   maxDistance: 15
 --- !u!224 &894923538 stripped

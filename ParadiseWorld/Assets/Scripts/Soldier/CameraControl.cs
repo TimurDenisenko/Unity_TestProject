@@ -14,18 +14,20 @@ public class CameraControl : MonoBehaviour
     [SerializeField] float speedOfChange = 1f;
     [Space(5)]
     [Header("Vectical angle"), Space(5)]
-    [SerializeField] float minVerticalAngle = -45f;
+    [SerializeField] float minVerticalAngleAtMinDistance = -75f;
+    [SerializeField] float minVerticalAngleAtMaxDistance = -10f;
     [SerializeField] float maxVerticalAngle = 45f;
     [Space(5)]
     [Header("Distance to object"), Space(5)]
-    [SerializeField] float distance = 6f;
     [SerializeField] float minDistance = 4f;
     [SerializeField] float maxDistance = 15f;
+    float minVerticalAngle;
+    float distance;
     Vector2 rotation;
     Quaternion targetRotation;
     bool isControl;
     float angleBetweenOne;
-    float bValue;
+    float maxMinAngle;
     Vector2 rotationVelocity;
     void Awake()
     {
@@ -34,16 +36,19 @@ public class CameraControl : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        distance = maxDistance / minDistance;
         cameraZoom.started += CameraZoom_started;
-        angleBetweenOne = Mathf.Abs(minVerticalAngle / distance);
-        bValue = minVerticalAngle - (angleBetweenOne * distance);
+        angleBetweenOne = (minVerticalAngleAtMaxDistance - minVerticalAngleAtMinDistance) / (maxDistance - minDistance);
+        maxMinAngle = minVerticalAngleAtMinDistance;
+        minVerticalAngle = Mathf.Clamp(minVerticalAngleAtMinDistance + (distance - minDistance) * angleBetweenOne, maxMinAngle, 0);
         ChangeCameraRotation(false);
     }
     private void CameraZoom_started(InputAction.CallbackContext obj)
     {
-        distance += cameraZoom.ReadValue<Vector2>().y;
+        distance += cameraZoom.ReadValue<Vector2>().y / -2;
         distance = Mathf.Clamp(distance, minDistance, maxDistance);
-        minVerticalAngle = Mathf.Clamp(angleBetweenOne * distance + bValue, minVerticalAngle, 0);
+        minVerticalAngle = Mathf.Clamp(minVerticalAngleAtMinDistance + (distance - minDistance) * angleBetweenOne, maxMinAngle, 0);
+        Debug.Log(distance);
         ChangeCameraRotation(false);
     }
     private void LateUpdate()
